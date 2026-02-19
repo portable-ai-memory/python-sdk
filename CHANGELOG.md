@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/portable-ai-memory/python-sdk/compare/portable-ai-memory-v1.0.0...portable-ai-memory-v1.0.1) (2026-02-19)
+
+
+### CI
+
+* trigger initial CI run ([d821ced](https://github.com/portable-ai-memory/python-sdk/commit/d821cede1eb478f7b959a5d031c0d37af55e8d8a))
+
 ## [1.0.0] - 2026-02-19
 
 First stable release.
