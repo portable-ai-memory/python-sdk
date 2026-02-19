@@ -1,0 +1,37 @@
+# Pre-commit hooks for PAM Python SDK
+# Install: pre-commit install
+# Run manually: pre-commit run --all-files
+# See https://pre-commit.com for more information
+#
+# All hooks use the project's own tooling (via uv run) to ensure
+# consistent versions between local dev, pre-commit, and CI.
+
+repos:
+  - repo: local
+    hooks:
+      - id: ruff-check
+        name: ruff check
+        entry: uv run ruff check --fix
+        language: system
+        types: [python]
+
+      - id: ruff-format
+        name: ruff format
+        entry: uv run ruff format --config pyproject.toml
+        language: system
+        types: [python]
+
+      - id: mypy
+        name: mypy
+        entry: uv run mypy src/
+        language: system
+        pass_filenames: false
+        files: ^src/
+        types: [python]
+
+      - id: pytest-unit
+        name: unit tests
+        entry: uv run pytest -q --ignore=tests/test_real_data.py --ignore=tests/test_cli_integration.py
+        language: system
+        pass_filenames: false
+        always_run: true

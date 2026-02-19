@@ -1,0 +1,3 @@
+[submodule "vendor/portable-ai-memory"]
+	path = vendor/portable-ai-memory
+	url = git@github.com:portable-ai-memory/portable-ai-memory.git

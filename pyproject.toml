@@ -1,0 +1,118 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "portable-ai-memory"
+version = "1.0.0"
+description = "Python SDK for the Portable AI Memory (PAM) interchange format"
+readme = "README.md"
+license = "Apache-2.0"
+requires-python = ">=3.11"
+authors = [
+    { name = "Daniel Gines", email = "dangines@gmail.com" },
+]
+keywords = ["ai", "memory", "llm", "interchange", "portability", "pam"]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+dependencies = [
+    "pydantic>=2.7,<3",
+    "jsonschema>=4.21,<5",
+    "rfc8785>=0.1.2,<1",
+]
+
+[project.optional-dependencies]
+cli = [
+    "typer>=0.12,<1",
+    "rich>=13,<14",
+]
+dev = [
+    "pytest>=8",
+    "pytest-cov>=5",
+    "ruff>=0.5",
+    "mypy>=1.10",
+    "pre-commit>=3.7",
+]
+all = [
+    "portable-ai-memory[cli,dev]",
+]
+
+[project.scripts]
+pam = "portable_ai_memory.cli.main:app"
+
+[project.urls]
+Homepage = "https://portable-ai-memory.org"
+Documentation = "https://portable-ai-memory.org/tools/sdk"
+Repository = "https://github.com/portable-ai-memory/python-sdk"
+Specification = "https://portable-ai-memory.org/spec/v1.0"
+Issues = "https://github.com/portable-ai-memory/python-sdk/issues"
+
+# ── Hatch ─────────────────────────────────────────────────
+[tool.hatch.build.targets.wheel]
+packages = ["src/portable_ai_memory"]
+
+[tool.hatch.build.targets.wheel.force-include]
+"vendor/portable-ai-memory/schemas/portable-ai-memory.schema.json" = "portable_ai_memory/schemas/portable-ai-memory.schema.json"
+"vendor/portable-ai-memory/schemas/portable-ai-memory-conversation.schema.json" = "portable_ai_memory/schemas/portable-ai-memory-conversation.schema.json"
+"vendor/portable-ai-memory/schemas/portable-ai-memory-embeddings.schema.json" = "portable_ai_memory/schemas/portable-ai-memory-embeddings.schema.json"
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/",
+    "vendor/portable-ai-memory/schemas/*.schema.json",
+    "tests/",
+    "pyproject.toml",
+    "README.md",
+    "LICENSE",
+]
+
+
+# ── Ruff ──────────────────────────────────────────────────
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "UP",  # pyupgrade
+    "B",   # flake8-bugbear
+    "SIM", # flake8-simplify
+    "TCH", # flake8-type-checking
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["E501"]
+"src/portable_ai_memory/cli/**" = ["B008"]  # typer.Argument/Option in defaults is standard pattern
+
+[tool.ruff.lint.flake8-type-checking]
+runtime-evaluated-base-classes = ["pydantic.BaseModel"]
+runtime-evaluated-decorators = ["pydantic.field_validator"]
+exempt-modules = ["typing", "typing_extensions", "pathlib", "datetime", "uuid"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["portable_ai_memory"]
+
+# ── Pytest ────────────────────────────────────────────────
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+# ── Mypy ──────────────────────────────────────────────────
+[tool.mypy]
+python_version = "3.11"
+strict = true
+plugins = ["pydantic.mypy"]
