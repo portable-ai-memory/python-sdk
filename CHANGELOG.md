@@ -1,5 +1,14 @@
 # Changelog
 
+## [1.0.1](https://github.com/portable-ai-memory/python-sdk/compare/portable-ai-memory-v1.0.0...portable-ai-memory-v1.0.1) (2026-02-19)
+
+
+### CI
+
+* add workflow_dispatch trigger for manual PyPI publish ([fffc374](https://github.com/portable-ai-memory/python-sdk/commit/fffc37447e31e875ca48ead161cb5ba0e63f86bc))
+* rename workflow to match PyPI trusted publisher config ([295f6b2](https://github.com/portable-ai-memory/python-sdk/commit/295f6b2724ef4e75ad35d678127d763568124aec))
+* trigger initial CI run ([d821ced](https://github.com/portable-ai-memory/python-sdk/commit/d821cede1eb478f7b959a5d031c0d37af55e8d8a))
+
 ## [1.0.0] - 2026-02-19
 
 First stable release.
